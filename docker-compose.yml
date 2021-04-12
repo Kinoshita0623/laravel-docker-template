@@ -17,6 +17,7 @@ services:
       - ./src:/var/www/html
     depends_on: 
       - db
+    user: ${user}
   
   db: 
     image: mysql:8.0
