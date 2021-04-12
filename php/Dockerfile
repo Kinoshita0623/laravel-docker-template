@@ -1,8 +1,10 @@
 FROM php:7.4-fpm
 COPY php.ini /usr/local/etc/php/
 
-RUN apt-get update && apt-get install -y vim zip unzip
+RUN cd /usr/bin && curl -s http://getcomposer.org/installer | php && ln -s /usr/bin/composer.phar /usr/bin/composer
+RUN apt-get update && apt-get install -y git zip unzip vim libonig-dev libzip-dev libxml2-dev libgd-dev
+RUN git clone https://github.com/phpredis/phpredis.git /usr/src/php/ext/redis 
+RUN docker-php-ext-install pdo_mysql mbstring zip xml gd redis
 
-RUN apt-get install -y libpq-dev \
-    libonig-dev \ 
-    && docker-php-ext-install pdo pdo_mysql
+
+WORKDIR /var/www/html
